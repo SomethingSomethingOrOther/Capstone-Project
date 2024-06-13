@@ -16,8 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from restuarant import views
+
+
+router = DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'tables', views.BookingViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('restuarant/', include('restuarant.urls'))
+    path('api-auth/', include('rest_framework.urls'), name='rest_framework'),
+    path('restuarant/menu/', include('restuarant.urls')),
+    path('restuarant/booking/', include(router.urls)),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken'))
 ]
+
